@@ -1,0 +1,176 @@
+# ЗАДАНИЕ 1
+
+a = 3
+
+int_a = int(a)
+float_a = float(a)
+str_a = str(a)
+
+print(int_a)
+print(type(int_a))
+print(float_a)
+print(type(float_a))
+print(str_a)
+print(type(str_a))
+print()
+
+float_to_int_a = int(float_a)
+print(type(float_to_int_a))
+
+int_to_float_a = float(int_a)
+print(type(int_to_float_a))
+
+int_to_str_a = str(int_a)
+print(type(int_to_str_a))
+
+float_to_str_a = str(float_a)
+print(type(float_to_str_a))
+
+str_to_int_a = int(str_a)
+print(type(str_to_int_a))
+
+str_to_float_a = float(str_a)
+print(type(str_to_float_a))
+print()
+
+# ЗАДАНИЕ 2
+
+# Энергия Энштейна
+print('Введите значение массы:', end='')
+m = int(input())
+c = 3 * (10 ** 6)
+E = m * c ** 2
+print(E)
+
+# Кинетическая энергия
+print('Введите значение объема:', end='')
+v = int(input())
+print('Введите значение массы:', end='')
+m1 = int(input())
+e = (m1 * v ** 2) / 2
+print(e)
+
+# Площадь треугольника
+print('Введите 1 сторону:', end='')
+a = int(input())
+print('Введите 2 сторону:', end='')
+b = int(input())
+print('Введите 3 сторону:', end='')
+c = int(input())
+p = (a + b + c)/2
+S = (p * (p - a) * (p - b) * (p - c)) ** 0.5
+print('Площадь треугольника равана:', end=' ')
+print(S)
+
+print()
+
+# ЗАДАНИЕ 3
+A = 0
+B = 1
+print(A, end=' AND ')
+print(A, end=' = ')
+print(A and A)
+
+print(B, end=' AND ')
+print(A, end=' = ')
+print(B and A)
+
+print(A, end=' AND ')
+print(B, end=' = ')
+print(A and B)
+
+print(B, end=' AND ')
+print(B, end=' = ')
+print(B and B)
+print()
+
+#############################
+
+print(A, end=' OR ')
+print(A, end=' = ')
+print(A or A)
+
+print(B, end=' OR ')
+print(A, end=' = ')
+print(B or A)
+
+print(A, end=' OR ')
+print(B, end=' = ')
+print(A or B)
+
+print(B, end=' OR ')
+print(B, end=' = ')
+print(B or B)
+print()
+
+#############################
+
+print(A, end=' XOR ')
+print(A, end=' = ')
+print(A ^ A)
+
+print(B, end=' XOR ')
+print(A, end=' = ')
+print(B ^ A)
+
+print(A, end=' XOR ')
+print(B, end=' = ')
+print(A ^ B)
+
+print(B, end=' XOR ')
+print(B, end=' = ')
+print(B ^ B)
+print()
+
+#############################
+
+print(A, end=' NOR ')
+print(A, end=' = ')
+print(int(not(A or A)))
+
+print(B, end=' NOR ')
+print(A, end=' = ')
+print(int(not(B or A)))
+
+print(A, end=' NOR ')
+print(B, end=' = ')
+print(int(not(A or B)))
+
+print(B, end=' NOR ')
+print(B, end=' = ')
+print(int(not(B or B)))
+print()
+
+#############################
+
+print(A, end=' NAND ')
+print(A, end=' = ')
+print(int(not(A and A)))
+
+print(B, end=' NAND ')
+print(A, end=' = ')
+print(int(not(B and A)))
+
+print(A, end=' NAND ')
+print(B, end=' = ')
+print(int(not(A and B)))
+
+print(B, end=' NAND ')
+print(B, end=' = ')
+print(int(not(B and B)))
+print()
+
+# ЗАДНИЕ 4
+
+print('Введите число:', end='')
+e = int(input())
+if e % 3 == 0:
+    print('fizz')
+    if e % 5 == 0:
+        print('fizzbuzz')
+elif e % 5 == 0:
+    print('buzz')
+    if e % 3 == 0:
+        print('fizzbuzz')
+else:
+    print(e)

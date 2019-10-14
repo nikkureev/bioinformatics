@@ -6,171 +6,90 @@ int_a = int(a)
 float_a = float(a)
 str_a = str(a)
 
-print(int_a)
-print(type(int_a))
-print(float_a)
-print(type(float_a))
-print(str_a)
-print(type(str_a))
-print()
-
 float_to_int_a = int(float_a)
-print(type(float_to_int_a))
 
 int_to_float_a = float(int_a)
-print(type(int_to_float_a))
 
 int_to_str_a = str(int_a)
-print(type(int_to_str_a))
 
 float_to_str_a = str(float_a)
-print(type(float_to_str_a))
 
 str_to_int_a = int(str_a)
-print(type(str_to_int_a))
 
 str_to_float_a = float(str_a)
-print(type(str_to_float_a))
-print()
 
 # ЗАДАНИЕ 2
 
 # Энергия Энштейна
-print('Введите значение массы:', end='')
-m = int(input())
+m = int(input('Введите значение массы:'))
 c = 3 * (10 ** 6)
 E = m * c ** 2
 print(E)
 
 # Кинетическая энергия
-print('Введите значение объема:', end='')
-v = int(input())
-print('Введите значение массы:', end='')
-m1 = int(input())
-e = (m1 * v ** 2) / 2
+u = int(input('Введите значение скорости:'))
+m1 = int(input('Введите значение массы:'))
+e = (m1 * u ** 2) / 2
 print(e)
 
 # Площадь треугольника
-print('Введите 1 сторону:', end='')
-a = int(input())
-print('Введите 2 сторону:', end='')
-b = int(input())
-print('Введите 3 сторону:', end='')
-c = int(input())
+a = int(input('Введите 1 сторону:'))
+b = int(input('Введите 2 сторону:'))
+c = int(input('Введите 3 сторону:'))
 p = (a + b + c)/2
 S = (p * (p - a) * (p - b) * (p - c)) ** 0.5
-print('Площадь треугольника равана:', end=' ')
-print(S)
-
-print()
+print('Площадь треугольника равана:', S)
 
 # ЗАДАНИЕ 3
-A = 0
-B = 1
-print(A, end=' AND ')
-print(A, end=' = ')
-print(A and A)
+A = False
+B = True
 
-print(B, end=' AND ')
-print(A, end=' = ')
-print(B and A)
-
-print(A, end=' AND ')
-print(B, end=' = ')
-print(A and B)
-
-print(B, end=' AND ')
-print(B, end=' = ')
-print(B and B)
-print()
+print('NOT ', A, ' = ', not A)
+print('NOT ', B, ' = ', not B, end='\n\n')
 
 #############################
 
-print(A, end=' OR ')
-print(A, end=' = ')
-print(A or A)
-
-print(B, end=' OR ')
-print(A, end=' = ')
-print(B or A)
-
-print(A, end=' OR ')
-print(B, end=' = ')
-print(A or B)
-
-print(B, end=' OR ')
-print(B, end=' = ')
-print(B or B)
-print()
+print(A, ' AND ', A, ' = ', A and A)
+print(A, ' AND ', B, ' = ', A and B)
+print(B, ' AND ', A, ' = ', B and A)
+print(B, ' AND ', B, ' = ', B and B, end='\n\n')
 
 #############################
 
-print(A, end=' XOR ')
-print(A, end=' = ')
-print(A ^ A)
-
-print(B, end=' XOR ')
-print(A, end=' = ')
-print(B ^ A)
-
-print(A, end=' XOR ')
-print(B, end=' = ')
-print(A ^ B)
-
-print(B, end=' XOR ')
-print(B, end=' = ')
-print(B ^ B)
-print()
+print(A, ' OR ', A, ' = ', A or A)
+print(A, ' OR ', B, ' = ', A or B)
+print(B, ' OR ', A, ' = ', B or A)
+print(B, ' OR ', B, ' = ', B or B, end='\n\n')
 
 #############################
 
-print(A, end=' NOR ')
-print(A, end=' = ')
-print(int(not(A or A)))
-
-print(B, end=' NOR ')
-print(A, end=' = ')
-print(int(not(B or A)))
-
-print(A, end=' NOR ')
-print(B, end=' = ')
-print(int(not(A or B)))
-
-print(B, end=' NOR ')
-print(B, end=' = ')
-print(int(not(B or B)))
-print()
+print(A, ' XOR ', A, ' = ', A ^ A)
+print(A, ' XOR ', B, ' = ', A ^ B)
+print(B, ' XOR ', A, ' = ', B ^ A)
+print(B, ' XOR ', B, ' = ', B ^ B, end='\n\n')
 
 #############################
 
-print(A, end=' NAND ')
-print(A, end=' = ')
-print(int(not(A and A)))
+print(A, ' NOR ', A, ' = ', not(A or A))
+print(A, ' NOR ', B, ' = ', not(A or B))
+print(B, ' NOR ', A, ' = ', not(B or A))
+print(B, ' NOR ', B, ' = ', not(B or B), end='\n\n')
 
-print(B, end=' NAND ')
-print(A, end=' = ')
-print(int(not(B and A)))
+#############################
 
-print(A, end=' NAND ')
-print(B, end=' = ')
-print(int(not(A and B)))
-
-print(B, end=' NAND ')
-print(B, end=' = ')
-print(int(not(B and B)))
-print()
+print(A, ' NAND ', A, ' = ', not(A and A))
+print(A, ' NAND ', B, ' = ', not(A and B))
+print(B, ' NAND ', A, ' = ', not(B and A))
+print(B, ' NAND ', B, ' = ', not(B and B), end='\n\n')
 
 # ЗАДНИЕ 4
 
-print('Введите число:', end='')
-e = int(input())
-if e % 3 == 0:
+e = int(input('Введите число:'))
+if e % 15 == 0:
+    print('fizzbuzz')
+elif e % 3 == 0:
     print('fizz')
-    if e % 5 == 0:
-        print('fizzbuzz')
 elif e % 5 == 0:
     print('buzz')
-    if e % 3 == 0:
-        print('fizzbuzz')
 else:
     print(e)

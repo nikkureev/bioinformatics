@@ -10,4 +10,5 @@ del a_set[4]
 print(a_set['first'])
 print(a_set['second'])
 
-a_set['new_one'] = a_set['first'] + a_set['second
+a_set['new_one'] = a_set['first'] + a_set['second']
+

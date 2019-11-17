@@ -1,7 +1,7 @@
 def moda(l):
     all_dict = {}
     for i in l:
-        if i not in all_dict:
+        if all_dict.get(i) == None:
             all_dict[i] = 1
         else:
             all_dict[i] += 1

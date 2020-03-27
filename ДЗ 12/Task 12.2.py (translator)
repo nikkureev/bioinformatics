@@ -1,0 +1,12 @@
+from Bio import SeqIO
+
+
+def translator(path, i):
+    j = 0
+    record = list(SeqIO.parse(path, 'fasta'))
+    while j < i:
+        j += 1
+        yield record[j].translate().seq
+
+
+translator('C:/Python/test_fasta.txt', 2)

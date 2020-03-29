@@ -1,0 +1,15 @@
+import itertools
+
+
+def DNA_generator(n):
+    alphabet = 'ATGC'
+    DNA_samples = []
+    i = 1
+    while i <= n:
+        for item in itertools.combinations_with_replacement(alphabet, i):
+            DNA_samples.append(''.join(item))
+        i += 1
+    yield DNA_samples
+
+
+print(list(DNA_generator(3)))

@@ -1,4 +1,4 @@
-class spaceship:
+class Spaceship:
     
     def __init__(self, x, y, speed, acc=1):
         self.x = x

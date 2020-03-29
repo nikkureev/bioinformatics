@@ -1,20 +1,23 @@
 from Bio import SeqIO
+from Bio.Seq import Seq
 
 
-class rna:
+class RNA:
 
-    def __init__(self, input):
+    def __init__(self, input, path=True):
         self.input = input
-        # if input is a sequence:
-        if type(self.input) == str:
-            self.seq = input
-
         # if input is a path to fasta:
+        if path:
+            self.sequence = SeqIO.parse(input, 'fasta')
+        # if input is a sequence:
         else:
-            self.seq = SeqIO.parse(input, 'fasta')
+            self.sequence = Seq(str(input))
 
     def do_translation(self):
-        return self.seq.translate()
+        return self.sequence.translate()
 
     def do_reverse_transcription(self):
-        return self.seq.back_transcribe()
+        return self.sequence.back_transcribe()
+
+
+print(RNA('AGCTAGCGCTAGCTCGTCGTGCA', False).do_translation())

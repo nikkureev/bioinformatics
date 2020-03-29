@@ -1,0 +1,5 @@
+import itertools
+
+
+deck = itertools.product('HCSD', '2345678910JQKA')
+print(list(deck))

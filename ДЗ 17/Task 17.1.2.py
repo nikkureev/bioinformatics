@@ -1,21 +1,35 @@
 import sqlite3
 
+import pandas as pd
 
 # there is a musician database which consist of great musicians names and their genres
-musicians = [(1, 'wolfgang', 'Mozart', 101),
-            (2, 'Joseph', 'Haydn', 101),
-            (3, 'Freddie', 'Mercury', 102),
-            (4, 'Michael', 'Jackson', 102),
-            (5, 'Brian', 'Johnson', 103),
-            (6, 'Marilyn', 'Manson', 103),
-             (7, 'Daniel', 'Reynolds', 103)]
 
-genres = [(101, 'classic'),
-          (102, 'pop'),
-          (103, 'rock'),
-          (104, 'indie')]
+
+ms = pd.read_csv('C:/Python/musicians.csv', sep=' ', header=None)
+musicians = [(i[0], str(i[1]), str(i[2]), i[3]) for i in ms.itertuples(index=False)]
+
+gs = pd.read_csv('C:/Python/genres_new.csv', sep=' ')
+genres = [(i[0], str(i[1])) for i in gs.itertuples(index=False)]
+
+# now we have the folloing:
+
+# musicians = [(1, 'wolfgang', 'Mozart', 101),
+#            (2, 'Joseph', 'Haydn', 101),
+#            (3, 'Freddie', 'Mercury', 102),
+#            (4, 'Michael', 'Jackson', 102),
+#            (5, 'Brian', 'Johnson', 103),
+#            (6, 'Marilyn', 'Manson', 103),
+#             (7, 'Daniel', 'Reynolds', 103)]
+
+#genres = [(101, 'classic'),
+#          (102, 'pop'),
+#          (103, 'rock'),
+#          (104, 'indie')]
 
 connection = sqlite3.connect('music_range.db')
+
+# tried to connect genres distribution in musicians table with genres table
+# using CASCADE with UPDATE to modify with a new parent key
 
 connection.execute('''CREATE TABLE IF NOT EXISTS musicians (
                                                             musician_id INTEGER PRIMARY KEY,
@@ -23,10 +37,8 @@ connection.execute('''CREATE TABLE IF NOT EXISTS musicians (
                                                             last_name TEXT,
                                                             genre TEXT,
                                                             
-                                                            # tried to connect genres distribution in musicians table with genres table
                                                             FOREIGN KEY (genre) references genres(genre_id)
                                                             
-                                                            # using CASCADE with UPDATE to modify with a new parent key
                                                             ON UPDATE CASCADE
                                                             )''')
 

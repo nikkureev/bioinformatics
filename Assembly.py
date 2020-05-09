@@ -25,18 +25,39 @@ result = {}
 for hsp in blast_result:
     read_out = []
     for hs in hsp:
+        hit_ids = []
         for h in hs:
-            read_out.append([h.hit_id, h.bitscore, h.hit_range])
+            if h.hit_id not in hit_ids:
+                read_out.append([h.hit_id, h.bitscore, h.hit_range, h.query.seq])
+                hit_ids.append(h.hit_id)
     result[hsp.id] = read_out
 
 for i, v in result.items():
-    if len(v) == 2:
-        if v[1][2][0] == 1:
-            v.append(1)
+    v.append([0, 0])
+    if len(v) == 3:
+        if v[1][2][0] == 0:
+            v[2][1] = v[1][0]
         else:
-            v.append(len(result))
+            v[2][0] = v[1][0]
     else:
-        
+        for ks in v:
+            if ks[0] != i:
+                try:
+                    if ks[2][0] == 1:
+                        v[-1][0] = ks[0]
+                    else:
+                        v[-1][1] = ks[0]
+                except IndexError:
+                    continue
 
+assembled_seq = ''
 for i, v in result.items():
-    print(i, v)
+    if v[-1][0] == 0:
+        assembled_seq += v[0][3]
+        next = v[-1][1]
+        while next:
+            for ks, vs in result.items():
+                if ks == next:
+                    assembled_seq += vs[0][3][-1]
+                    next = vs[-1][1]
+print('RESULT SEQUENCE: ', assembled_seq)

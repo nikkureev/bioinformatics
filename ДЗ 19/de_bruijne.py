@@ -1,5 +1,10 @@
 from collections import defaultdict, Counter
 import copy
+import graphviz as gv
+import os
+
+
+os.environ["PATH"] += os.pathsep + 'C:/Python/graphviz-2.38/release/bin'
 
 
 def fastaParser(infile):
@@ -17,6 +22,16 @@ def fastaParser(infile):
                 sequence += line.rstrip()
         seqs.append(sequence)
     return seqs
+
+
+def graph_printing(print_list, save_path):
+    db = gv.Digraph()
+    for i in range(len(print_list) - 1):
+        db.node(print_list[i])
+        db.node(print_list[i + 1])
+        db.edge(print_list[i], print_list[i + 1])
+    s = gv.Source(db, filename=save_path, format="png")
+    s.view()
 
 
 def de_bruijn(input_reads, k):
@@ -44,7 +59,7 @@ def de_bruijn(input_reads, k):
 
 
 def assembler(de_bruijn, in_kmers, out_kmers):
-    assembled_strings = []
+    assembled_strings, printing_list = [], []
     n = 0
     while True:
         refer = copy.deepcopy(de_bruijn)
@@ -55,14 +70,16 @@ def assembler(de_bruijn, in_kmers, out_kmers):
         best_starts = [k for k in refer if refer[k] and out_kmers[k] > in_kmers[k]]
         if len(best_starts) == 0:
             best_starts = [k for k in refer if refer[k]]
+        print(best_starts)
         try:
             current_point = best_starts[n]
         except IndexError:
             break
-
+        sub_list = []
         assembled_string = current_point
         while True:
             try:
+                sub_list.append(current_point)
                 next_kmer = refer[current_point]
                 next_edge = next_kmer.pop()
                 assembled_string += next_edge[-1]
@@ -70,18 +87,22 @@ def assembler(de_bruijn, in_kmers, out_kmers):
                 current_point = next_edge
             except KeyError:
                 assembled_strings.append(assembled_string)
+                printing_list = sub_list
                 n += 1
                 break
-    return assembled_strings
+    return assembled_strings, printing_list
 
 
 if __name__ == "__main__":
-    ref_file = 'C:/Theileria_seq/test_reads.txt'
+    ref_file = 'C:/Theileria_seq/longer_reads.txt'
+    graph_path = 'C:/Theileria_seq/graph.gv'
     reads = fastaParser(ref_file)
-    db_graph, in_degrees, out_degrees = de_bruijn(reads, 3)
-    output = assembler(db_graph, in_degrees, out_degrees)
+    db_graph, in_degrees, out_degrees = de_bruijn(reads, 5)
+    output, for_print = assembler(db_graph, in_degrees, out_degrees)
     longest = ''
+    print(output)
     for vars in output:
         if len(vars) > len(longest):
             longest = vars
     print(longest)
+    graph_printing(for_print, graph_path)

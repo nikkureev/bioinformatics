@@ -5,6 +5,7 @@ import logging
 from Bio import SeqIO, SearchIO
 
 
+# Argparse usage implemented
 parser = argparse.ArgumentParser()
 parser.add_argument('-in', '--input', help='input fasta file')
 parser.add_argument('-ri', '--read_indexing', help='False (default) if reads have distinguishable identifiers')
@@ -14,6 +15,7 @@ parser.add_argument('-log', '--logging_file', help='saving log file (if True)')
 parser.add_argument('-out', '--output_file', help='output directory')
 parser.add_argument('-wd', '--working_directory',
                     help='set working directory (without "/" at the end), if None current directory will be used')
+# Almost all files are optional except input and output files
 args = parser.parse_args()
 input_fasta_file = args.input
 output_file = args.output_file
@@ -32,11 +34,24 @@ if args.working_directory:
 
 
 def alignfunc(db_file, q_file, align_file):
+    """usage: aligning nucleotide sequences
+    :param db_file: database file with sequences in fasta
+    :param q_file: query file with single sequence in fasta
+    :param align_file: technical file for storing blast-xml output
+
+    :return: raising cmd command for using pre-installed blastn exe"""
+
     proga = r'blastn -query %s -out %s -db %s -outfmt 5 -word_size 4' % (q_file, align_file, db_file)
     os.system(proga)
 
 
 def indexing(source_file, index_file):
+    """usage: indexing file due to exception of distinguishable identifiers
+    :param source_file: fasta file with sequences with same identifiers
+    :param index_file: resulting fasta file with indexed sequences
+
+    :return: indexed fasta file, usage is optional"""
+
     n = 0
     with open(index_file, 'w') as f:
         for seqs in SeqIO.parse(source_file, 'fasta'):
@@ -47,6 +62,17 @@ def indexing(source_file, index_file):
 
 
 def contigassambler(input_file, align_file, mid_file, index_file, contigs_file, num, error_description=True):
+    """usage: key function for assembling redas to contigs and result sequence
+
+    :param input_file: file with reads in fasta file, could be pre-processed by indexing function (optional)
+    :param align_file: technical file for storing blast-xml output
+    :param mid_file: technical file in fasta format for alignfunc
+    :param index_file: fasta file with sequences for assembly (consist of reads or contigs)
+    :param contigs_file: fasta file for storing result contigs for future cycles of assembling
+    :param num: number of assembly iteration, also using for indexing contig_files
+    :param error_description: using for indicating if reads have distinguishable identifiers, key to indexing reads
+
+    :return: filling contig_file with contigs and assembly sequence"""
     n = 0
     contigs_file = contigs_file + str(num)
     f = open(contigs_file, 'w')
@@ -59,6 +85,11 @@ def contigassambler(input_file, align_file, mid_file, index_file, contigs_file, 
     os.system(cmd)
     numbers = []
     logging.debug(index_file)
+
+    # all sequences in fasta source file checking for homology to other sequences
+    # the best result would be a self-hited alignment
+    # second match is optional for building contig
+
     for seqs in SeqIO.parse(index_file, 'fasta'):
         logging.warning('Starting...')
         if seqs.id not in numbers:
@@ -107,6 +138,9 @@ def contigassambler(input_file, align_file, mid_file, index_file, contigs_file, 
                                     n += 1
                     except AttributeError:
                         break
+                        
+    # if only one contig was assembled during program work then output file writing begins
+    
     if n == 1:
         with open(output_file, 'w') as out:
             out.write('>assembled_sequence' + '\n' + str(ref))
@@ -115,6 +149,15 @@ def contigassambler(input_file, align_file, mid_file, index_file, contigs_file, 
 
 def main(input_file, align_file, mid_file, index_file, contigs_file, log_file, input_error,
          save_index_file, save_contig_file, save_logging_file):
+    """usage: main function, consist of cycle with assembler function
+    :param log_file: filae for logging, could be removed after program end
+    :param input_error: indicating for distinguishable identifiers
+    :param save_logging_file: using to indicating for saving file with logs
+    :param save_contig_file: saving ALL contig files used during program works
+    :param save_index_file: saving an indexed file that was compiled in beginning
+
+    :return: nothing, using for starting work"""
+
     if 'Biopython' in sys.modules:
         logging.warning('This assembler using Python module Biopython')
         print('If you want we could help you with this')
@@ -138,6 +181,10 @@ def main(input_file, align_file, mid_file, index_file, contigs_file, log_file, i
                                          error_description=input_error)
         for_removing.append(file_to_remove)
         iteration += 1
+        
+    # removing all or part of files build during work
+    # sometimes having problems with deleting file from makeblastdb usage
+        
     if not save_index_file:
         try:
             os.remove(index_file)

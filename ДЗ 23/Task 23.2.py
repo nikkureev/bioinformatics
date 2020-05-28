@@ -18,4 +18,4 @@ for row in range(1, img.shape[0] - 2):
         modified[row, col] = (img[row: row + 3, col: col + 3] * kernel).sum()
 
 plt.imshow(modified, cmap='gray')
-plt.show()
+plt.savefig('/home/nikolay/crop.png')

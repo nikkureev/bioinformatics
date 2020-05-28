@@ -15,7 +15,7 @@ parser.add_argument('-mal', '--maximum_length', help='Optional value of maximum 
 parser.add_argument('-number', '--number_of_output_reads', help='Optional value of amount of reads in output files')
 parser.add_argument('-miq', '--minimum_quality', help='Optional value of minimum read quality')
 parser.add_argument('-maq', '--maximum_quality', help='Optional value of maximum read quality')
-parser.add_argument('-nf', 'number_of_files', help='Optional amount of output files')
+parser.add_argument('-nf', '--number_of_files', help='Optional amount of output files')
 
 args = parser.parse_args()
 
@@ -52,13 +52,15 @@ def reads_comparer(input_for_list, input_rev_list, number, min_length, max_lengt
     return 1
 
 
-def trimming(path1, path2, output, number_of_reads, head=0, tail=0, min_gc_content=0, max_gc_content=100,
+def trimming(path1, path2, output, number_of_reads=0, head=0, tail=0, min_gc_content=0, max_gc_content=100,
                  min_length=0, max_length=1000, min_quality=0, max_quality=100, number_of_files=1):
 
     for_list = list(SeqIO.parse(path1, 'fastq'))
     print('first list parsed')
     rev_list = list(SeqIO.parse(path2, 'fastq'))
     print('second list parsed')
+    if number_of_reads:
+        number_of_reads = min(len(for_list), len(rev_list))
     max_i, j = 0, 0
     for j in range(number_of_files):
         print('Opening file...')

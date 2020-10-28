@@ -20,3 +20,34 @@ for gff in files:
         g = open(final, 'a')
         g.write(string)
         g.close()
+        
+        
+        
+#####################################################        
+import matplotlib.pyplot as plt
+
+
+file = 'C:/AGlab/gene_sorted.txt'
+table = 'C:/AGlab/gene_table.txt'
+gene_dict = {}
+
+with open(file, 'r') as f:
+    for lines in f:
+        for gene in lines.split():
+            if gene in gene_dict.keys():
+                gene_dict[gene] += 1
+            else:
+                gene_dict[gene] = 1
+
+numb_dict = {}
+for val in gene_dict.values():
+    if val in numb_dict.keys():
+        numb_dict[val] += 1
+    else:
+        numb_dict[val] = 1
+
+for i, v in gene_dict.items():
+    print(i, v)
+# with open(table, 'w') as d:
+#     for i, v in numb_dict.items():
+#         d.write(str(i) + ' ' + str(v) + '\n') 
